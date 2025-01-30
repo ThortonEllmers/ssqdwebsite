@@ -7,6 +7,12 @@
     <link href="style.css" rel="stylesheet" />
 </head>
 <body>
+    <!-- Title Container (Fixed at the top) -->
+    <div class="title-container">
+        <div class="website-title">Welcome To The SSQD Match Masters Tournament</div>
+    </div>
+
+    <!-- Video and Twitch Player -->
     <div class="video">
         <!-- Load Twitch Player Embed Script -->
         <script src="https://player.twitch.tv/js/embed/v1.js"></script>
@@ -24,13 +30,14 @@
                 width: playerContainer.clientWidth,  // Full width of the container
                 height: playerContainer.clientHeight, // Full height of the container
                 channel: "ShadowSnipess",
-                parent: ["localhost"]
+                parent: ["ssqd.org"]
             };
             var player = new Twitch.Player("ShadowLive", options);
             player.setVolume(0.5);
         });
         </script>
     </div>
+
     <!-- Load jQuery & CommonNinja Widget -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
