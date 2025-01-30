@@ -1,3 +1,9 @@
+/* Add a background color to the whole page */
+body {
+    background-color: #141414;
+    margin: 0;
+}
+
 .video {
     display: flex;
     justify-content: center;
@@ -6,6 +12,27 @@
     height: 100vh; /* Full viewport height */
     padding: 10px;
     box-sizing: border-box;
+    margin-top: 60px;
+}
+
+/* Title container that will be fixed at the top */
+.title-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Background for the title */
+    z-index: 10; /* Ensure it stays above other content */
+}
+
+/* Title styling */
+.website-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    padding: 10px;
+    font-family: Courier New, sans-serif; /* Set font to Courier New, with a fallback to sans-serif */
 }
 
 #ShadowLive {
