@@ -15,7 +15,7 @@
     max-height: 1000px;
 }
 
-/* Responsive Adjustments For All Devices */
+/* Responsive Adjustments */
 @media (max-width: 1024px) {
     #ShadowLive {
         width: 95vw;
