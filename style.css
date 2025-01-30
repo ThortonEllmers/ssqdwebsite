@@ -10,12 +10,12 @@
 
 #ShadowLive {
     width: 90vw; /* 90% of the viewport width */
-    height: 100vh; /* Increase the height to 85% of viewport height */
+    height: 85vh; /* Increase the height to 85% of viewport height */
     max-width: 1600px;
     max-height: 1000px;
 }
 
-/* Responsive Adjustments */
+/* Responsive Adjustments For All Devices */
 @media (max-width: 1024px) {
     #ShadowLive {
         width: 95vw;
