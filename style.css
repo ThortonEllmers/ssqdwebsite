@@ -2,4 +2,37 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#ShadowLive {
+    width: 90vw; /* 90% of the viewport width */
+    height: 100vh; /* Increase the height to 85% of viewport height */
+    max-width: 1600px;
+    max-height: 1000px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    #ShadowLive {
+        width: 95vw;
+        height: 80vh;
+    }
+}
+
+@media (max-width: 768px) {
+    #ShadowLive {
+        width: 100vw;
+        height: 75vh;
+    }
+}
+
+@media (max-width: 480px) {
+    #ShadowLive {
+        width: 100vw;
+        height: 70vh;
+    }
 }

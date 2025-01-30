@@ -16,9 +16,13 @@
 
         <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
+            var playerContainer = document.getElementById("ShadowLive");
+            playerContainer.style.width = "100%";
+            playerContainer.style.height = "100%";
+            
             var options = {
-                width: "100%",
-                height: "auto",
+                width: playerContainer.clientWidth,  // Full width of the container
+                height: playerContainer.clientHeight, // Full height of the container
                 channel: "ShadowSnipess",
                 parent: ["localhost"]
             };
