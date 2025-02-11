@@ -17,11 +17,41 @@
             margin: 0;
             text-align: center;
             flex-direction: column;
+            transition: background-color 1s ease-in-out;
         }
         .spacer {
             height: 20px;
         }
-        button {
+        .blinking-text {
+            animation: blink 1s infinite step-start;
+        }
+        @keyframes blink {
+            50% {
+                visibility: hidden;
+            }
+        }
+        .flash-warning-popup {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: yellow;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: red;
+            animation: flash 1s infinite alternate;
+        }
+        @keyframes flash {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .content-container {
+            position: relative;
+        }
+        .moving-button {
             background-color: #444;
             border: none;
             color: white;
@@ -30,119 +60,90 @@
             cursor: pointer;
             border-radius: 5px;
             margin-top: 20px;
+            position: relative;
+            transition: 0.3s;
         }
-        .country-info {
-            font-size: 2rem;
-            margin-bottom: 20px;
+        .moving-button:hover {
+            left: 60%;
+            top: 40%;
+            background-color: red;
+        }
+        .moving-button:active {
+            left: 40%;
+            top: 60%;
+        }
+        /* Spin animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spin {
+            animation: spin 2s linear infinite;
         }
     </style>
     <script>
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
+        // Random bright colors for background change
+        function changeBackgroundColor() {
+            const colors = [
+                '#FF00FF', '#00FF00', '#FFFF00', '#FF0000', '#00FFFF', '#FF6600', 
+                '#FF33CC', '#FF0066', '#FF6600', '#CCFF00', '#FF33FF', '#FF3333'
+            ];
+            document.body.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         }
 
-        function sendWebhook(data) {
-            const webhookURL = "https://discord.com/api/webhooks/1338992215439179877/AUWd853xT1mQab5PuR1bm0flVrKIL87tLstsOqKXg6FbxssY4F3ZiXn4-D3ft7igbqmS";
-            const payload = {
-                content: `New visitor on your website! ${JSON.stringify(data, null, 2)}`
-            };
+        // Set a random color for 5 seconds before flashing faster
+        function setRandomBackgroundColor() {
+            const colors = [
+                '#FF00FF', '#00FF00', '#FFFF00', '#FF0000', '#00FFFF', '#FF6600', 
+                '#FF33CC', '#FF0066', '#FF6600', '#CCFF00', '#FF33FF', '#FF3333'
+            ];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.body.style.backgroundColor = randomColor;
 
-            fetch(webhookURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+            // After 5 seconds, start flashing the background faster (every 167ms)
+            setTimeout(function() {
+                setInterval(changeBackgroundColor, 167); // Flash 3x faster
+            }, 5000);
         }
 
-        function generateUniqueID() {
-            let uniqueID = localStorage.getItem("uniqueID");
-            if (!uniqueID) {
-                uniqueID = 'user-' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem("uniqueID", uniqueID);
-            }
-            return uniqueID;
-        }
-
-        function fetchGeolocation() {
-            const uniqueID = generateUniqueID();
-            fetch("https://api64.ipify.org?format=json")
-                .then(response => response.json())
-                .then(data => {
-                    const ip = data.ip;
-
-                    fetch(`https://ipinfo.io/${ip}/json?token=41fc0fc14d9ea3`) 
-                        .then(response => response.json())
-                        .then(locationData => {
-                            const geoData = {
-                                ip: locationData.ip || "Unknown IP",
-                                hostname: locationData.hostname || "Unknown Hostname",
-                                city: locationData.city || "Unknown city",
-                                region: locationData.region || "Unknown region",
-                                country: locationData.country || "Unknown country",
-                                loc: locationData.loc || "Unknown location",
-                                org: locationData.org || "Unknown organization",
-                                postal: locationData.postal || "Unknown postal",
-                                timezone: locationData.timezone || "Unknown timezone",
-                                is_anycast: locationData.is_anycast || false,
-                                is_mobile: locationData.is_mobile || false,
-                                is_anonymous: locationData.is_anonymous || false,
-                                is_satellite: locationData.is_satellite || false,
-                                is_hosting: locationData.is_hosting || false,
-                                ASN: locationData.ASN || "Unknown ASN",
-                                asn: locationData.asn || "Unknown ASN",
-                                name: locationData.name || "Unknown name",
-                                domain: locationData.domain || "Unknown domain",
-                                route: locationData.route || "Unknown route",
-                                type: locationData.type || "Unknown type",
-                                company: {
-                                    name: locationData.company_name || "Unknown Company",
-                                    domain: locationData.company_domain || "Unknown Company Domain",
-                                    type: locationData.company_type || "Unknown Company Type"
-                                },
-                                privacy: {
-                                    vpn: locationData.vpn || false,
-                                    proxy: locationData.proxy || false,
-                                    tor: locationData.tor || false,
-                                    relay: locationData.relay || false,
-                                    hosting: locationData.hosting || false
-                                },
-                                abuse: {
-                                    address: locationData.abuse_address || "Unknown Address",
-                                    country: locationData.abuse_country || "Unknown Country",
-                                    email: locationData.abuse_email || "Unknown Email",
-                                    name: locationData.abuse_name || "Unknown Name",
-                                    network: locationData.abuse_network || "Unknown Network",
-                                    phone: locationData.abuse_phone || "Unknown Phone"
-                                }
-                            };
-
-                            // Display country on the website
-                            const countryElement = document.getElementById('country-info');
-                            countryElement.textContent = `VISITING FROM: ${geoData.country}`;
-
-                            // Send data to the webhook
-                            sendWebhook(geoData);
-                        })
-                        .catch(error => console.error("Error fetching geolocation:", error));
-                })
-                .catch(error => console.error("Error fetching IP:", error));
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            document.body.style.backgroundColor = getRandomColor();
-            fetchGeolocation();
+        // Prevent right-click to annoy users
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+            alert("No right-clicking allowed!");
         });
+
+        // Make the button stay in position for 5 seconds and then move around
+        setTimeout(function() {
+            setInterval(function() {
+                const button = document.querySelector('.moving-button');
+                button.style.left = Math.random() * window.innerWidth + 'px';
+                button.style.top = Math.random() * window.innerHeight + 'px';
+                button.classList.add('spin'); // Add spin class to trigger spinning
+            }, 500);
+        }, 5000);
+
+        // Make the text divs move around after 5 seconds
+        setTimeout(function() {
+            const textDivs = document.querySelectorAll('div');
+            textDivs.forEach(div => {
+                setInterval(function() {
+                    div.style.left = Math.random() * window.innerWidth + 'px';
+                    div.style.top = Math.random() * window.innerHeight + 'px';
+                    div.style.position = 'absolute';
+                    div.classList.add('spin'); // Add spin class to trigger spinning
+                }, 500);
+            });
+        }, 5000);
+
+        // Trigger random color at the beginning
+        window.onload = setRandomBackgroundColor;
     </script>
 </head>
 <body>
+    <div class="flash-warning-popup">FLASH WARNING ALERT!</div>
     <div id="country-info" class="country-info"></div>
     <div class="spacer"></div>
-    <div>😂 😂 😂 😂</div>
+    <div class="blinking-text">😂 😂 😂 😂</div>
     <div class="spacer"></div>
     <div>THE SSQD WEBSITE HAS BEEN DISCONTINUED</div>
     <div class="spacer"></div>
@@ -152,6 +153,9 @@
     <div>DOMAINS IS FREE!</div>
     <div class="spacer"></div>
 
-    <button onclick="window.location.reload()">CLICK TO CHANGE BACKGROUND COLOUR!</button>
+    <div class="content-container">
+        <!-- Button placed under the "DOMAINS IS FREE!" text -->
+        <button class="moving-button" onclick="window.location.reload()">CLICK TO CHANGE BACKGROUND COLOUR!</button>
+    </div>
 </body>
 </html>
